@@ -1,0 +1,3 @@
+# login shell setting
+
+. ~/.bashrc
