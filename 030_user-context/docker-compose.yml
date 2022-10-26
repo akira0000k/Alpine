@@ -1,0 +1,16 @@
+version: '3'
+services:
+  userlogin:
+    build: .
+    image: user-compose-img
+    container_name: usercomp-ct
+    volumes:
+      - type: bind
+        source: "./mnt-host"
+        target: "/mnt/host"
+      - type: bind
+        source: "./home-user"
+        target: "/home/user"
+      - type: bind
+        source: "./root"
+        target: "/root"
