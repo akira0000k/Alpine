@@ -1,0 +1,57 @@
+端末の文字が暗い青になって黒背景だと見えない件
+
+~/.zshrc
+.....
+.....
+
+# docker build output->not colord
+export BUILDKIT_PROGRESS=plain
+
+
+
+
+https://stackoverflow.com/questions/66584350/docker-build-colored-messages-unreadable
+
+Docker build colored messages unreadable [duplicate]
+
+
+https://stackoverflow.com/questions/55756372/when-using-buildkit-with-docker-how-do-i-see-the-output-of-run-commands
+
+When using BuildKit with Docker, how do I see the output of RUN commands?
+
+
+
+With PR #2954 you can specify:
+
+$ export NO_COLOR=1
+
+
+There have also been changes in recent versions to make the defaults more readable.
+You can pick your own color scheme with the BUILDKIT_COLORS variable, e.g.:
+
+$ export BUILDKIT_COLORS=run=123,20,245:error=yellow:cancel=blue:warning=white
+
+
+(Note, if the above doesn't work for you, then that PR likely hasn't made it into your Desktop install yet.)
+Other options to solve this include switching to plain output with either the
+
+--progress=plain
+
+
+option or
+
+$ export BUILDKIT_PROGRESS=plain
+
+Or you could disable buildkit with
+
+$ export DOCKER_BUILDKIT=0
+
+
+
+https://github.com/moby/buildkit/pull/2368
+
+ Enhance ANSI colors for progress ui #2368 
+
+
+満艦飾
+BUILDKIT_PROGRESS=plain docker-compose  --ansi=never up --no-color -d

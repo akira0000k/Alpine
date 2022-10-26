@@ -1,0 +1,45 @@
+デタッチシーケンスの変更
+
+dockerコンテナにシェルで入ると、抜ける時に
+C-c C-c だとコンテナ終了
+C-p C-q でそのまま抜けられる (デタッチ)
+
+ここで問題発生
+emacsや nano では C-p を受け取れず、C-p C-p と2回打った時二行上がってしまう
+
+
+解決方法
+デタッチシーケンスを C-\ C-q に変更
+C-\ toggle-input-method は使ってないから影響なし。
+
+~/.docker/config.json
+{
+  "credsStore": "desktop",
+  "detachKeys": "ctrl-\\,ctrl-q"
+}
+注意    "credsStore" : "desktop", <----ここにカンマを追加
+
+修正すると次のdockerコマンドですぐに有効になる。
+
+
+Akira@MBP ~ % docker exec -it  minialpine1 ash --login
+alpine:~#  <-------ここで ^\^q と押して抜ける
+          read escape sequence
+
+
+ちなみに文字一個でも良い
+    "detachKeys": "ctrl-\\"
+
+
+https://qiita.com/Yuki-Inoue/items/60ec916383025160fbb8#_reference-a2d9244a6c4496f4df05
+
+
+
+謎
+ctrl-[
+すぐに抜けちゃう
+(再現せず)
+
+
+
+

@@ -1,0 +1,35 @@
+rootでなく、あらかじめ作成したユーザーでDockerに入りたい。
+
+
+docker コンテナ内で useradd しておく
+
+docker exec --user=akira -it image ash
+
+とかすると、ディレクトリが image作成時の/root になっていて、lsなど　Permiission deniedになるので慌てる。
+
+起動時に working directoryを変更する方法
+
+実行コマンドとして ash -c 'cd && exec ash' のようにすると出来る!
+
+
+
+kira@MBP ~ % docker exec --user=akira -it minialpine3 bash -c 'cd && exec bash'
+bash-5.1$ ls
+bash-5.1$
+exit
+|
+Akira@MBP ~ % docker exec --user=akira -it minialpine3 ash -c 'cd && exec ash'
+~ $ ls
+~ $ pwd
+/home/akira
+~ $
+
+
+
+
+Dockerfile の作り方でもっと良い方法があった。
+
+WORKDIR /home/akira
+COPY --chown=akira:akira akira/ emacs/ .
+USER akira
+CMD ["/bin/ash", "--login"]
